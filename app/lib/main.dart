@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'models/point.dart';
 
 void main() {
   runApp(const MyApp());
@@ -114,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   key: Key('blue'),
                   child: Icon(Icons.filter_1, color: Colors.indigo),
                 ),
-                point: LatLng(35.681, 139.760),
+                point: Point(35.681, 139.760).latlng(),
               ),
             ],
           ),
