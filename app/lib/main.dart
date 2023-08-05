@@ -107,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
           TileLayerOptions(
             urlTemplate: "https://tile.openstreetmap.jp/{z}/{x}/{y}.png",
           ),
-          // サークルマーカー設定
           MarkerLayerOptions(
             markers: [
               Marker(
