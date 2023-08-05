@@ -58,6 +58,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final mapController = MapController();
 
   void _incrementCounter() {
     setState(() {
@@ -89,12 +90,16 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: FlutterMap(
+        mapController: mapController,
         options: MapOptions(
-          center: LatLng(51.509364, -0.128928),
-          zoom: 9.2,
+          center: LatLng(35.681, 139.760),
+          zoom: 11,
           interactiveFlags: InteractiveFlag.all,
           enableScrollWheel: true,
           scrollWheelVelocity: 0.00001,
+          // onMapReady: () {
+          //   mapController.mapEventStream.listen((evt) {}); // And any other `MapController` dependent non-movement methods
+          // },
         ),
         layers: [
           //背景地図読み込み (OSM)
@@ -102,13 +107,13 @@ class _MyHomePageState extends State<MyHomePage> {
             urlTemplate: "https://tile.openstreetmap.jp/{z}/{x}/{y}.png",
           ),
           // サークルマーカー設定
-          CircleLayerOptions(
-            circles: [
-              CircleMarker(
-                color: Colors.indigo.withOpacity(0.9),
-                radius: 10,
-                borderColor: Colors.white.withOpacity(0.9),
-                borderStrokeWidth: 3,
+          MarkerLayerOptions(
+            markers: [
+              Marker(
+                builder: (ctx) => Container(
+                  key: Key('blue'),
+                  child: Icon(Icons.filter_1, color: Colors.indigo),
+                ),
                 point: LatLng(35.681, 139.760),
               ),
             ],
