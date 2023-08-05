@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'models/point.dart';
+import 'models/route_points.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,6 +73,29 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Marker> getMarkers(int routeId) {
+    final Iterable<Point> points = [
+      Point(35.678, 139.761),
+      Point(35.677, 139.762),
+      Point(35.676, 139.763),
+      Point(35.681, 139.764),
+    ];
+    RoutePoints route = RoutePoints('company', [0, 1, 2, 3].map((id) => points.elementAt(id)).toList(), 3);
+
+    final icons = [0xe270, 0xe271, 0xe272, 0xe273, 0xe274, 0xe275, 0xe276, 0xe277, 0xe278, 0xe279];
+    return route.points.asMap().entries.map((entry) {
+       int index = entry.key;
+       Point point = entry.value;
+       return Marker(
+        builder: (ctx) => Container(
+          key: Key('blue'),
+          child: Icon(IconData(icons[index], fontFamily: 'MaterialIcons'), color: index == route.current ? Colors.red : Colors.indigo),
+        ),
+        point: point.latlng(),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -108,15 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
             urlTemplate: "https://tile.openstreetmap.jp/{z}/{x}/{y}.png",
           ),
           MarkerLayerOptions(
-            markers: [
-              Marker(
-                builder: (ctx) => Container(
-                  key: Key('blue'),
-                  child: Icon(Icons.filter_1, color: Colors.indigo),
-                ),
-                point: Point(35.681, 139.760).latlng(),
-              ),
-            ],
+            markers: getMarkers(1),
           ),
         ],
       ),
