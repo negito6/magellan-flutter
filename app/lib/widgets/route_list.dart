@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import '../models/point.dart';
+import '../models/route_points.dart';
 
-class PointList extends StatelessWidget {
-  PointList(this.pointList);
-  List<Point> pointList;
+class RouteList extends StatelessWidget {
+  RouteList(this.routeList);
+  List<RoutePoints> routeList;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Points'),
+        title: const Text('Routes'),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: this.pointList.length,
+        itemCount: this.routeList.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             height: 50,
-            child: Text(this.pointList[index].name ?? 'No name'),
+            child: Text(this.routeList[index].name),
           );
         }
       ),
