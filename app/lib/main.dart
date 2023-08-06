@@ -4,6 +4,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'models/point.dart';
 import 'models/route_points.dart';
+import 'widgets/route_list.dart';
+import 'widgets/point_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -156,7 +158,12 @@ class _MyHomePageState extends State<MyHomePage> {
             foregroundColor: Colors.white,
             label: 'Points',
             labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('open'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PointList()),
+              );
+            },
           ),
           SpeedDialChild(
             child: Icon(Icons.route_outlined),
@@ -164,7 +171,12 @@ class _MyHomePageState extends State<MyHomePage> {
             foregroundColor: Colors.white,
             label: 'Routes',
             labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('open'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RouteList()),
+              );
+            },
           ),
         ],
       ),
