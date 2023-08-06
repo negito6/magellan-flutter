@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'models/point.dart';
 import 'models/route_points.dart';
 
@@ -136,11 +137,37 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: SpeedDial(
+        icon: Icons.menu, //icon on Floating action button
+        activeIcon: Icons.close, //icon when menu is expanded on button
+        backgroundColor: Colors.deepOrangeAccent, //background color of button
+        foregroundColor: Colors.white, //font color, icon color in button
+        activeBackgroundColor: Colors.deepPurpleAccent, //background color when menu is expanded
+        activeForegroundColor: Colors.white,
+        visible: true,
+        closeManually: false,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        children: [
+          SpeedDialChild( //speed dial child
+            child: Icon(Icons.location_pin),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            label: 'Points',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('open'),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.route_outlined),
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            label: 'Routes',
+            labelStyle: TextStyle(fontSize: 18.0),
+            onTap: () => print('open'),
+          ),
+        ],
+      ),
     );
   }
 }
