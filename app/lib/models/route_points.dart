@@ -10,4 +10,12 @@ class RoutePoints {
   bool archived = false;
 
   RoutePoints(this.name, this.points, this.current);
+
+  Point getCurrentPoint() {
+    return this.points[current];
+  }
+
+  double defaultZoom() {
+    return 12.0;
+  }
 }

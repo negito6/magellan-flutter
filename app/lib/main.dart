@@ -66,6 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final mapController = MapController();
   final data = DemoData();
+  final initialRouteId = 0;
+  RoutePoints initialRoute = RoutePoints('', [], 0);
+
+  _MyHomePageState() {
+    initialRoute = this.getRoute(this.initialRouteId);
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -90,16 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return this.getAllRoutes().elementAt(id);
   }
 
-  List<Marker> getMarkers(int routeId) {
-    final route = this.getRoute(0);
+  List<Marker> getMarkers(List<Point> points, int currentIndex) {
     final icons = [0xe270, 0xe271, 0xe272, 0xe273, 0xe274, 0xe275, 0xe276, 0xe277, 0xe278, 0xe279];
-    return route.points.asMap().entries.map((entry) {
+    return points.asMap().entries.map((entry) {
        int index = entry.key;
        Point point = entry.value;
        return Marker(
         builder: (ctx) => Container(
           key: Key('blue'),
-          child: Icon(IconData(icons[index], fontFamily: 'MaterialIcons'), color: index == route.current ? Colors.red : Colors.indigo),
+          child: Icon(IconData(icons[index], fontFamily: 'MaterialIcons'), color: index == currentIndex ? Colors.red : Colors.indigo),
         ),
         point: point.latlng(),
       );
@@ -127,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-          center: LatLng(35.6274289,139.7260393),
-          zoom: 12,
+          center: initialRoute.getCurrentPoint().latlng(),
+          zoom: initialRoute.defaultZoom(),
           interactiveFlags: InteractiveFlag.all,
           enableScrollWheel: true,
           scrollWheelVelocity: 0.00001,
@@ -142,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
             urlTemplate: "https://tile.openstreetmap.jp/{z}/{x}/{y}.png",
           ),
           MarkerLayerOptions(
-            markers: getMarkers(1),
+            markers: getMarkers(initialRoute.points, initialRoute.current),
           ),
         ],
       ),
