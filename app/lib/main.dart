@@ -67,10 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
   final mapController = MapController();
   final data = DemoData();
   final initialRouteId = 0;
-  RoutePoints initialRoute = RoutePoints('', [], 0);
+  RoutePoints currentRoute = RoutePoints('', [], 0);
 
   _MyHomePageState() {
-    initialRoute = this.getRoute(this.initialRouteId);
+    currentRoute = this.getRoute(this.initialRouteId);
   }
 
   void _incrementCounter() {
@@ -132,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-          center: initialRoute.getCurrentPoint().latlng(),
-          zoom: initialRoute.defaultZoom(),
+          center: currentRoute.getCurrentPoint().latlng(),
+          zoom: currentRoute.defaultZoom(),
           interactiveFlags: InteractiveFlag.all,
           enableScrollWheel: true,
           scrollWheelVelocity: 0.00001,
@@ -147,9 +147,38 @@ class _MyHomePageState extends State<MyHomePage> {
             urlTemplate: "https://tile.openstreetmap.jp/{z}/{x}/{y}.png",
           ),
           MarkerLayerOptions(
-            markers: getMarkers(initialRoute.points, initialRoute.current),
+            markers: getMarkers(currentRoute.points, currentRoute.current),
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+                decoration: BoxDecoration(color: Colors.indigo),
+                child: Text("Menu")),
+            ListTile(
+              leading: Icon(Icons.route_outlined),
+              title: Text('Routes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RouteList(this.getAllRoutes().toList())),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.location_pin),
+              title: Text('Points'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PointList.notitle(this.getAllPoints().toList())),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButton: SpeedDial(
         icon: Icons.menu, //icon on Floating action button
@@ -173,20 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PointList(this.getAllPoints().toList())),
-              );
-            },
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.route_outlined),
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            label: 'Routes',
-            labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RouteList(this.getAllRoutes().toList())),
+                MaterialPageRoute(builder: (context) => PointList(currentRoute.points, "Points of ${currentRoute.name}")),
               );
             },
           ),

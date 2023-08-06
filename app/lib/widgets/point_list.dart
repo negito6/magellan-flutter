@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import '../models/point.dart';
 
 class PointList extends StatelessWidget {
-  PointList(this.pointList);
   List<Point> pointList;
+  String title;
+
+  PointList(this.pointList, this.title);
+  PointList.notitle(this.pointList): title = 'Points';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Points'),
+        title: Text(this.title),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
